@@ -18,7 +18,15 @@ int main()
   IntArray a;
   a.add(next);
 
+  while (std::cin >> next)
+  {
+    a.add(next);
+  }
 
+  if (std::cin.fail())
+  {
+    return 1;
+  }
 
   for (size_t i = 0; i < a.size(); ++i)
   {
