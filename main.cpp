@@ -7,7 +7,7 @@ struct IntArray
   int at(size_t id) const;
   int get(size_t id) const noexcept;
   size_t size() const noexcept;
-  int last() const;
+  int last() const noexcept;
   IntArray(int i);
   ~IntArray();
 
