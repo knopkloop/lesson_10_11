@@ -71,3 +71,7 @@ int IntArray::get(size_t id) const noexcept
   return a[id];
 }
 
+size_t IntArray::size() const noexcept
+{
+  return k;
+}
