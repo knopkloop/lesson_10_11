@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 struct IntArray
 {
   void add(int i);
@@ -8,7 +9,12 @@ struct IntArray
   int last() const;
   IntArray(int i);
   ~IntArray();
+
+  int *a;
+  size_t k;
 };
+
+
 
 int main()
 {
@@ -42,4 +48,10 @@ int main()
     return 2;
   }
 
+}
+
+
+IntArray::~IntArray()
+{
+  delete[] a;
 }
