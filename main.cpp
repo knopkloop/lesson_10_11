@@ -4,8 +4,9 @@
 struct IntArray
 {
   void add(int i);
-  int get(size_t id) const;
-  size_t size() const;
+  int at(size_t id) const;
+  int get(size_t id) const noexcept;
+  size_t size() const noexcept;
   int last() const;
   IntArray(int i);
   ~IntArray();
@@ -50,15 +51,23 @@ int main()
 
 }
 
-
 IntArray::~IntArray()
 {
   delete[] a;
 }
 
+
 IntArray::IntArray(int i):
   a(new int[1]),
   k(1)
 {
-  a[0] = i;
+  *a = i;
 }
+
+
+int IntArray::get(size_t id) const noexcept
+{
+
+  return a[id];
+}
+
