@@ -1,11 +1,12 @@
 #include <iostream>
+#include <fstream>
 
 struct IntArray
 {
   int *data;
   size_t size;
 
-  IntArray(int i);
+  IntArray(size_t k, int i);
   ~IntArray();
   IntArray(const IntArray &rhs);
   IntArray &operator = (const IntArray &rhs);
@@ -18,6 +19,19 @@ struct IntArray
   int last() const noexcept;
 };
 
+struct IntMatrix
+{
+  IntArray matrix = IntArray(0, 0);
+  size_t rows = 0;
+  size_t cols = 0;
+  
+  std::istream &readMatrix(std::istream &in);
+  int *addRow(size_t num, int val) const;
+  int *addZeroRowAndCol(size_t num_r, size_t num_c);
+  void writeMatrix() const noexcept;
+};
+
+
 int main(int argc, const char **argv)
 {
   std::cout << "Hello, world\n";
@@ -29,11 +43,14 @@ IntArray::~IntArray()
   delete[] data;
 }
 
-IntArray::IntArray(int i):
-  data(new int[1]),
-  size(1)
+IntArray::IntArray(size_t k, int i):
+  data(new int[k]),
+  size(k)
 {
-  *data = i;
+  for (size_t j = 0; j < k; ++j)
+  {
+    data[j] = i;
+  }
 }
 
 IntArray::IntArray(const IntArray &rhs):
