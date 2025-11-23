@@ -4,14 +4,14 @@ struct IntArray
 {
   int *data;
   size_t size;
-  
+
   IntArray(int i);
   ~IntArray();
   IntArray(const IntArray &rhs);
   IntArray &operator = (const IntArray &rhs);
   IntArray(IntArray &&rhs);
   IntArray &operator = (IntArray &&rhs);
-  
+
   void add(int i);
   int get(size_t id) const noexcept;
   size_t getsize() const noexcept;
@@ -38,7 +38,7 @@ IntArray::IntArray(int i):
 
 IntArray::IntArray(const IntArray &rhs):
   data(new int[rhs.getsize()]),
-  size(rhs.getsize()) 
+  size(rhs.getsize())
 {
   for (size_t i = 0; i < rhs.getsize(); ++i)
   {
@@ -72,7 +72,7 @@ IntArray &IntArray::operator = (IntArray &&rhs)
   delete[] data;
   data = rhs.data;
   size = rhs.getsize();
-  
+
   rhs.data = nullptr;
   return *this;
 }
