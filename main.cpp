@@ -1,94 +1,106 @@
 #include <iostream>
 
-
 struct IntArray
 {
-  void add(int i);
-  int at(size_t id) const;
-  int get(size_t id) const noexcept;
-  size_t size() const noexcept;
-  int last() const noexcept;
+  int *data;
+  size_t size;
+  
   IntArray(int i);
   ~IntArray();
-
-  int *a;
-  size_t k;
+  IntArray(const IntArray &rhs);
+  IntArray &operator = (const IntArray &rhs);
+  IntArray(IntArray &&rhs);
+  IntArray &operator = (IntArray &&rhs);
+  
+  void add(int i);
+  int get(size_t id) const noexcept;
+  size_t getsize() const noexcept;
+  int last() const noexcept;
 };
 
-
-
-int main()
+int main(int argc, const char **argv)
 {
-  int next = 0;
-  std::cin >> next;
-  try
-  {
-    IntArray a(next);
-    a.add(next);
-
-    while (std::cin >> next)
-    {
-      a.add(next);
-    }
-
-    if (std::cin.fail() && !std::cin.eof())
-    {
-      return 1;
-    }
-    size_t count = 1;
-    for (size_t i = 0; i < a.size() - 1; ++i)
-    {
-      int d = a.get(i);
-      count += !(d % a.last());
-    }
-    std::cout << count << "\n";
-  }
-  catch(const std::bad_alloc& e)
-  {
-    std::cerr << e.what() << '\n';
-    return 2;
-  }
-
+  std::cout << "Hello, world\n";
+  return 0;
 }
 
 IntArray::~IntArray()
 {
-  delete[] a;
+  delete[] data;
 }
-
 
 IntArray::IntArray(int i):
-  a(new int[1]),
-  k(1)
+  data(new int[1]),
+  size(1)
 {
-  *a = i;
+  *data = i;
 }
 
+IntArray::IntArray(const IntArray &rhs):
+  data(new int[rhs.getsize()]),
+  size(rhs.getsize()) 
+{
+  for (size_t i = 0; i < rhs.getsize(); ++i)
+  {
+    data[i] = rhs.get(i);
+  }
+}
+
+IntArray &IntArray::operator = (const IntArray &rhs)
+{
+  size = rhs.getsize();
+  int *temp = new int [rhs.getsize()];
+  for(size_t i = 0; i < rhs.getsize(); ++i)
+  {
+    temp[i] = rhs.get(i);
+  }
+  delete[] data;
+  data = temp;
+  size = rhs.getsize();
+  return *this;
+}
+
+IntArray::IntArray(IntArray &&rhs):
+data(rhs.data),
+size(rhs.getsize())
+{
+  rhs.data = nullptr;
+}
+
+IntArray &IntArray::operator = (IntArray &&rhs)
+{
+  delete[] data;
+  data = rhs.data;
+  size = rhs.getsize();
+  
+  rhs.data = nullptr;
+  return *this;
+}
 
 int IntArray::get(size_t id) const noexcept
 {
-
-  return a[id];
+  return data[id];
 }
 
-size_t IntArray::size() const noexcept
+size_t IntArray::getsize() const noexcept
 {
-  return k;
+  return size;
 }
 
 int IntArray::last() const noexcept
 {
-  return get(size() - 1);
+  return get(getsize() - 1);
 }
 
 void IntArray::add(int i)
 {
-  int *tmp = new int[size() + 1];
-  for (size_t i = 0; i < size(); ++i)
+  int *temp = new int[getsize() + 1];
+  for (size_t j = 0; j < getsize(); ++j)
   {
-    tmp[i] = get(i);
+    temp[j] = get(j);
   }
-  delete[] a;
-  a = tmp;
-  ++k;
+  temp[getsize()] = i;
+  delete[] data;
+  data = temp;
+  ++size;
 }
