@@ -34,7 +34,43 @@ struct IntMatrix
 
 int main(int argc, const char **argv)
 {
-  std::cout << "Hello, world\n";
+  if (argc != 2)
+  {
+    std::cerr << "ERROR: not enough number of arguments" << "\n";
+    return 1;
+  }
+  
+  try
+  {
+    IntMatrix arr;
+  }
+  catch (const std::bad_alloc &)
+  {
+    std::cerr << "Memory allocation error" << "\n";
+    return 3;
+  }
+  
+  std::ifstream in(argv[1]);
+  
+  if(!in.is_open())
+  {
+    std::cerr << "Opening file error" << "\n";
+  }
+  
+  try
+  {
+  }
+  catch(const std::logic_error &e)
+  {
+    std::cerr << e.what() << "\n";
+    return 1;
+  }
+  catch(const std::bad_alloc &)
+  {
+    std::cerr << "Memory allocation error" << "\n";
+    return 2;
+  }
+  
   return 0;
 }
 
