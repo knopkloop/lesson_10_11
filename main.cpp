@@ -26,8 +26,8 @@ struct IntMatrix
   size_t cols = 0;
   
   std::istream &readMatrix(std::istream &in);
-  int *addRow(size_t num, int val) const;
-  int *addZeroRowAndCol(size_t num_r, size_t num_c);
+  int addRow(size_t num, size_t val) const;
+  int addZeroRowAndCol(size_t num_r, size_t num_c);
   void writeMatrix() const noexcept;
 };
 
@@ -43,32 +43,62 @@ int main(int argc, const char **argv)
   try
   {
     IntMatrix arr;
+  
+    std::ifstream in(argv[1]);
+    
+    if(!in.is_open())
+    {
+      std::cerr << "Opening file error" << "\n";
+      return 1;
+    }
+  
+    try
+    {
+      arr.readMatrix(in);
+    }
+    catch(const std::logic_error &e)
+    {
+      std::cerr << e.what() << "\n";
+      return 1;
+    }
+    catch(const std::bad_alloc &)
+    {
+      std::cerr << "Memory allocation error" << "\n";
+      return 2;
+    }
+    
+    int comm = 0;
+    size_t n1 = 0, n2 = 0;
+    while ((std::cin >> comm >> n1 >> n2) && !(std::cin.eof()))
+    {
+      switch (comm)
+      {
+        case 1:
+          std::cout << "Not my variant hehe" << "\n";
+          break;
+        case 2:
+          arr.addRow(n1, n2);
+          arr.writeMatrix();
+          break;
+        case 3:
+          arr.addZeroRowAndCol(n1, n2);
+          arr.writeMatrix();
+          break;
+        default:
+          std::cerr << "Incorrect command" << "\n";
+          return 3;
+      }
+      if (std::cin.fail() && !std::cin.eof())
+      {
+        std::cerr << "Unexpected parameters" << "\n";
+        return 3;
+      }
+    }
   }
   catch (const std::bad_alloc &)
   {
     std::cerr << "Memory allocation error" << "\n";
     return 3;
-  }
-  
-  std::ifstream in(argv[1]);
-  
-  if(!in.is_open())
-  {
-    std::cerr << "Opening file error" << "\n";
-  }
-  
-  try
-  {
-  }
-  catch(const std::logic_error &e)
-  {
-    std::cerr << e.what() << "\n";
-    return 1;
-  }
-  catch(const std::bad_alloc &)
-  {
-    std::cerr << "Memory allocation error" << "\n";
-    return 2;
   }
   
   return 0;
