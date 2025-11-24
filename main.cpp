@@ -15,6 +15,7 @@ struct IntArray
 
   void add(int i);
   int get(size_t id) const noexcept;
+  void set(size_t id, int v);
   size_t getsize() const noexcept;
   int last() const noexcept;
 };
@@ -26,6 +27,8 @@ struct IntMatrix
   size_t cols = 0;
   
   std::istream &readMatrix(std::istream &in);
+  int get(size_t i, size_t j) const;
+  void set(size_t i, size_t j, int v);
   int addRow(size_t num, size_t val) const;
   int addZeroRowAndCol(size_t num_r, size_t num_c);
   void writeMatrix() const noexcept;
@@ -165,6 +168,11 @@ int IntArray::get(size_t id) const noexcept
   return data[id];
 }
 
+void IntArray::set(size_t id, int v)
+{
+  data[id] =  v;
+}
+
 size_t IntArray::getsize() const noexcept
 {
   return size;
@@ -186,4 +194,28 @@ void IntArray::add(int i)
   delete[] data;
   data = temp;
   ++size;
+}
+
+std::istream &IntMatrix::readMatrix(std::istream &in)
+{
+  in >> rows >> cols;
+  if (!in)
+  {
+    throw std::logic_error("Unexpected input for rows/cols");
+  }
+  else if (rows == 0 || cols == 0)
+  {
+    throw std::logic_error("Zero values for rows/cols");
+  }
+  
+}
+
+int IntMatrix::get(size_t i, size_t j) const
+{
+  return matrix.get(i * cols + j);
+}
+
+void IntMatrix::set(size_t i, size_t j, int v)
+{
+  matrix.set(i * cols + j, v);
 }
