@@ -323,6 +323,7 @@ void IntMatrix::addZeroRowAndCol(size_t num_r, size_t num_c)
       temp[temp_i * (cols + 1) + temp_j] = get(i, j);
     }
   }
+  
   delete[] matrix.data;
   matrix.data = temp;
   ++cols;
