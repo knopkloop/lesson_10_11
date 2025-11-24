@@ -80,13 +80,40 @@ int main(int argc, const char **argv)
           std::cout << "Not my variant hehe" << "\n";
           break;
         case 2:
+          try
+          {
           arr.addCol(n1, n2);
+          }
+          catch (const std::logic_error &e)
+          {
+            std::cerr << e.what() << "\n";
+            return 1;
+          }
+          catch (const std::bad_alloc&)
+          {
+            std::cerr << "Memory allocation error" << "\n";
+            return 2;
+          }
           arr.writeMatrix();
           break;
         case 3:
-          arr.addZeroRowAndCol(n1, n2);
+          try
+          {
+            arr.addZeroRowAndCol(n1, n2);
+          }
+          catch (const std::logic_error &e)
+          {
+            std::cerr << e.what() << "\n";
+            return 1;
+          }
+          catch (const std::bad_alloc&)
+          {
+            std::cerr << "Memory allocation error" << "\n";
+            return 2;
+          }
           arr.writeMatrix();
           break;
+  
         default:
           std::cerr << "Incorrect command" << "\n";
           return 3;
