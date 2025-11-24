@@ -248,3 +248,18 @@ void IntMatrix::set(size_t i, size_t j, int v)
 {
   matrix.set(i * cols + j, v);
 }
+
+void IntMatrix::writeMatrix() const noexcept
+{
+  std::cout << "\n;
+  
+  for (size_t i = 0; i < rows; ++i)
+  {
+    for (size_t j = 0; j < cols - 1; ++j)
+    {
+      std::cout << matrix.data[i * cols + j] << " ";
+    }
+    std::cout << matrix.data[i * cols + (cols - 1)] << "\n";
+  }
+  std::cout << "\n";
+}
