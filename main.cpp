@@ -208,6 +208,35 @@ std::istream &IntMatrix::readMatrix(std::istream &in)
     throw std::logic_error("Zero values for rows/cols");
   }
   
+  try
+  {
+    delete[] matrix.data;
+    matrix.data = new int[rows * cols];
+    matrix.size = rows * cols;
+  }
+  catch (const std::bad_alloc &)
+  {
+    matrix.data = nullptr;
+    matrix.size = 0;
+    rows = 0;
+    cols = 0;
+    throw;
+  }
+  
+  for (size_t ind = 0; ind < matrix.size; ++ind)
+  {
+    in >> matrix.data[ind];
+    if (!in)
+    {
+      delete[] matrix.data;
+      matrix.data = nullptr;
+      matrix.size = 0;
+      rows = 0;
+      cols = 0;
+      throw std::logic_error("Matrix reading error");
+    }
+  }
+  return in;
 }
 
 int IntMatrix::get(size_t i, size_t j) const
